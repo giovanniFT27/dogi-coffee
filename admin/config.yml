@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: giovanniFT27/dogi-coffee # <--- ¡CAMBIA ESTO por tu usuario/nombre-de-repo!
+  branch: main
+
+media_folder: "assets/images" # Dónde se guardarán las fotos que subas
+public_folder: "/assets/images"
+
+collections:
+  - name: "productos"
+    label: "Productos"
+    folder: "content/productos"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nombre del Producto", name: "title", widget: "string" }
+      - { label: "Categoría", name: "category", widget: "select", options: ["Cafés Calientes", "Bebidas Frías", "Especialidades", "Snacks"] }
+      - { label: "Precio ($)", name: "price", widget: "number", value_type: "int" }
+      - { label: "Descripción", name: "description", widget: "text" }
+      - { label: "Foto del Producto", name: "image", widget: "image" }
