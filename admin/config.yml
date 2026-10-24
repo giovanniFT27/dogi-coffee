@@ -1,8 +1,8 @@
 backend:
   name: git-gateway
-  branch: main # O la rama donde esté tu código (habitualmente main)
+  branch: main
 
-media_folder: "assets/images" # Dónde se guardarán las fotos que subas
+media_folder: "assets/images"
 public_folder: "/assets/images"
 
 collections:
@@ -10,10 +10,12 @@ collections:
     label: "Productos"
     folder: "content/productos"
     create: true
+    extension: "json"
+    format: "json"
     slug: "{{slug}}"
     fields:
       - { label: "Nombre del Producto", name: "title", widget: "string" }
       - { label: "Categoría", name: "category", widget: "select", options: ["Cafés Calientes", "Bebidas Frías", "Especialidades", "Snacks"] }
-      - { label: "Precio ($)", name: "price", widget: "number", value_type: "int" }
+      - { label: "Precio ($ MXN)", name: "price", widget: "number", value_type: "int" }
       - { label: "Descripción", name: "description", widget: "text" }
       - { label: "Foto del Producto", name: "image", widget: "image" }
