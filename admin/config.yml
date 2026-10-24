@@ -1,7 +1,6 @@
 backend:
-  name: github
-  repo: giovanniFT27/dogi-coffee # <--- ¡CAMBIA ESTO por tu usuario/nombre-de-repo!
-  branch: main
+  name: git-gateway
+  branch: main # O la rama donde esté tu código (habitualmente main)
 
 media_folder: "assets/images" # Dónde se guardarán las fotos que subas
 public_folder: "/assets/images"
