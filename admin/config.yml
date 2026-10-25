@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: giovanniFT27/dogi-coffee
   branch: main
+  base_url: https://dogi-coffee-oauth.giovanni-fabian.workers.dev
+  auth_endpoint: auth
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
