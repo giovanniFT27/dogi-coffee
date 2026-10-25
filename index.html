@@ -219,8 +219,8 @@
                     <button onclick="clearOrder()" class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-400 hover:text-white text-xs font-semibold">
                         Vaciar
                     </button>
-                    <button onclick="closeModal('orderModal')" class="flex-1 bg-white text-dogi-dark hover:bg-neutral-200 py-3 rounded-xl font-extrabold text-xs uppercase tracking-wider transition">
-                        Listo para pedir
+                    <button onclick="sendOrderToWhatsApp()" class="flex-1 bg-green-500 text-white hover:bg-green-400 py-3 rounded-xl font-extrabold text-xs uppercase tracking-wider transition">
+                        Pedir por WhatsApp
                     </button>
                 </div>
             </div>
@@ -240,6 +240,9 @@
         let products = [];
         let activeCategory = 'all';
         let orderCart = [];
+        // Número de WhatsApp en formato internacional: México (52) + número de 10 dígitos.
+        const WHATSAPP_NUMBER = '522219145891';
+        let currentOrderId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             fetchProductsFromCMS();
@@ -401,6 +404,7 @@
             const product = products[index];
             if (!product) return;
 
+            currentOrderId = null;
             const existing = orderCart.find(item => item.product.title === product.title);
             if (existing) {
                 existing.quantity += 1;
@@ -412,6 +416,7 @@
         }
 
         function updateQuantity(title, delta) {
+            currentOrderId = null;
             const item = orderCart.find(i => i.product.title === title);
             if (!item) return;
 
@@ -425,7 +430,59 @@
 
         function clearOrder() {
             orderCart = [];
+            currentOrderId = null;
             updateCartUI();
+        }
+
+        function createOrderId() {
+            const now = new Date();
+            const date = [
+                String(now.getFullYear()).slice(-2),
+                String(now.getMonth() + 1).padStart(2, '0'),
+                String(now.getDate()).padStart(2, '0')
+            ].join('');
+            const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
+            return `DOGI-${date}-${suffix}`;
+        }
+
+        function sendOrderToWhatsApp() {
+            if (orderCart.length === 0) {
+                alert('Agrega al menos un producto a tu pedido antes de continuar.');
+                return;
+            }
+
+            if (!currentOrderId) currentOrderId = createOrderId();
+
+            const money = amount => new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+                minimumFractionDigits: 2
+            }).format(amount);
+
+            const total = orderCart.reduce((sum, item) => {
+                return sum + (Number(item.product.price) || 0) * item.quantity;
+            }, 0);
+
+            const lines = orderCart.map((item, index) => {
+                const price = (Number(item.product.price) || 0) * item.quantity;
+                return `${index + 1}. ${item.quantity} × ${item.product.title} — ${money(price)}`;
+            });
+
+            const message = [
+                '☕ *NUEVO PEDIDO — DOGI COFFEE*',
+                `*Folio:* ${currentOrderId}`,
+                '',
+                '*Productos:*',
+                ...lines,
+                '',
+                `*TOTAL: ${money(total)} MXN*`,
+                '',
+                'Pedido generado desde el menú digital. Favor de confirmar recepción.'
+            ].join('\\n');
+
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            // Abrir directamente desde el clic para evitar que el navegador bloquee la ventana.
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         }
 
         function updateCartUI() {
