@@ -19,7 +19,10 @@ collections:
     fields:
       - { label: "Nombre del Producto", name: "title", widget: "string" }
       - { label: "Categoría", name: "category", widget: "select", options: ["Cafés Calientes", "Bebidas Frías", "Especialidades", "Snacks"] }
-      - { label: "Precio ($ MXN)", name: "price", widget: "number", value_type: "int" }
+      - { label: "¿Este producto tiene tamaños?", name: "hasSizes", widget: "boolean", default: false, required: false }
+      - { label: "Precio único ($ MXN)", name: "price", widget: "number", value_type: "int", required: false, condition: { field: "hasSizes", value: false } }
+      - { label: "Precio tamaño chico ($ MXN)", name: "smallPrice", widget: "number", value_type: "int", required: false, condition: { field: "hasSizes", value: true } }
+      - { label: "Precio tamaño grande ($ MXN)", name: "largePrice", widget: "number", value_type: "int", required: false, condition: { field: "hasSizes", value: true } }
       - { label: "Descripción", name: "description", widget: "text" }
       - { label: "Foto principal del Producto", name: "image", widget: "image" }
       - label: "Galería de imágenes adicionales"
