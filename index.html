@@ -140,27 +140,35 @@
     </div>
 
     <!-- MODAL 1: PRODUCT DETAIL -->
-    <div id="productDetailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-end sm:items-center justify-center">
-        <div class="bg-dogi-card border-t sm:border border-white/15 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl transition-transform duration-300 transform translate-y-full sm:translate-y-0">
-            <div class="relative w-full h-72 bg-neutral-900 overflow-hidden">
+    <div id="productDetailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+        <div class="bg-dogi-card border-t sm:border border-white/15 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[94dvh] sm:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl transition-transform duration-300 transform translate-y-full sm:translate-y-0">
+            <div class="relative w-full h-64 sm:h-72 shrink-0 bg-neutral-900 overflow-hidden">
                 <img id="modalProductImg" src="" alt="Producto" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-dogi-card via-transparent to-black/40"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dogi-card/70 via-transparent to-black/40 pointer-events-none"></div>
                 
-                <button onclick="closeModal('productDetailModal')" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-black transition">
+                <button aria-label="Cerrar detalles del producto" onclick="closeModal('productDetailModal')" class="absolute top-3 right-3 z-20 w-11 h-11 rounded-full bg-black/75 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-black transition shadow-lg">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
 
-                <div id="modalProductCategoryBadge" class="absolute top-4 left-4 px-3 py-1 rounded-full bg-dogi-blue/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-white border border-white/20">
+                <button id="galleryPrevBtn" aria-label="Imagen anterior" onclick="changeProductImage(-1)" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/70 border border-white/20 text-white items-center justify-center">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <button id="galleryNextBtn" aria-label="Imagen siguiente" onclick="changeProductImage(1)" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/70 border border-white/20 text-white items-center justify-center">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+
+                <div id="modalProductCategoryBadge" class="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-dogi-blue/90 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-white border border-white/20 max-w-[70%] truncate">
                     Especialidad
                 </div>
             </div>
 
-            <div class="p-6 overflow-y-auto flex-1 flex flex-col">
+            <div class="px-4 py-4 sm:p-6 overflow-y-auto flex-1 flex flex-col min-h-0">
                 <div class="flex justify-between items-start mb-2">
                     <h2 id="modalProductTitle" class="text-2xl font-display font-extrabold text-white tracking-tight leading-tight">Producto</h2>
                     <span id="modalProductPrice" class="text-2xl font-extrabold text-dogi-accent font-mono">$0.00</span>
                 </div>
 
+                <div id="modalProductThumbnails" class="hidden flex gap-2 overflow-x-auto py-2 no-scrollbar" aria-label="Galería de imágenes del producto"></div>
                 <p id="modalProductDesc" class="text-sm text-neutral-300 font-normal leading-relaxed my-3 border-t border-white/5 pt-3">
                     Descripción...
                 </p>
@@ -243,6 +251,8 @@
         // Número de WhatsApp en formato internacional: México (52) + número de 10 dígitos.
         const WHATSAPP_NUMBER = '522219145891';
         let currentOrderId = null;
+        let activeProductImages = [];
+        let activeProductImageIndex = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
             fetchProductsFromCMS();
@@ -385,7 +395,10 @@
             const product = products[index];
             if (!product) return;
 
-            document.getElementById('modalProductImg').src = product.image || 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80';
+            activeProductImages = [...new Set([product.image, ...(Array.isArray(product.gallery) ? product.gallery : []), ...(Array.isArray(product.images) ? product.images : [])].filter(image => typeof image === 'string' && image.trim()))];
+            if (activeProductImages.length === 0) activeProductImages = ['https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'];
+            activeProductImageIndex = 0;
+            renderProductGallery();
             document.getElementById('modalProductTitle').innerText = product.title;
             document.getElementById('modalProductPrice').innerText = `$${product.price} MXN`;
             document.getElementById('modalProductDesc').innerText = product.description || '';
@@ -538,18 +551,64 @@
             if (window.lucide) lucide.createIcons();
         }
 
+        function renderProductGallery() {
+            const image = document.getElementById('modalProductImg');
+            const thumbnails = document.getElementById('modalProductThumbnails');
+            const previous = document.getElementById('galleryPrevBtn');
+            const next = document.getElementById('galleryNextBtn');
+            image.src = activeProductImages[activeProductImageIndex];
+            image.alt = document.getElementById('modalProductTitle').innerText || 'Producto DOGI COFFEE';
+
+            const hasMultiple = activeProductImages.length > 1;
+            previous.classList.toggle('hidden', !hasMultiple);
+            previous.classList.toggle('flex', hasMultiple);
+            next.classList.toggle('hidden', !hasMultiple);
+            next.classList.toggle('flex', hasMultiple);
+            thumbnails.classList.toggle('hidden', !hasMultiple);
+            thumbnails.innerHTML = hasMultiple ? activeProductImages.map((src, index) => `
+                <button type="button" aria-label="Ver imagen ${index + 1}" onclick="selectProductImage(${index})" class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 ${index === activeProductImageIndex ? 'border-dogi-accent' : 'border-white/10'}">
+                    <img src="${src}" alt="" class="w-full h-full object-cover">
+                </button>
+            `).join('') : '';
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function changeProductImage(direction) {
+            if (activeProductImages.length < 2) return;
+            activeProductImageIndex = (activeProductImageIndex + direction + activeProductImages.length) % activeProductImages.length;
+            renderProductGallery();
+        }
+
+        function selectProductImage(index) {
+            if (index < 0 || index >= activeProductImages.length) return;
+            activeProductImageIndex = index;
+            renderProductGallery();
+        }
+
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (!modal) return;
             modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            document.body.classList.add('overflow-hidden');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                const panel = modal.firstElementChild;
+                if (panel) panel.classList.remove('translate-y-full');
+            });
         }
 
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             if (!modal) return;
             modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            const panel = modal.firstElementChild;
+            if (panel && window.matchMedia('(max-width: 639px)').matches) panel.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                if (!document.querySelector('#productDetailModal:not(.hidden), #orderModal:not(.hidden)')) {
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }, 300);
         }
     </script>
 </body>
