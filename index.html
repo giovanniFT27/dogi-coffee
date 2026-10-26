@@ -476,9 +476,9 @@
                 return sum + (Number(item.product.price) || 0) * item.quantity;
             }, 0);
 
-            const lines = orderCart.map((item, index) => {
+            const lines = orderCart.map(item => {
                 const price = (Number(item.product.price) || 0) * item.quantity;
-                return `${index + 1}. ${item.quantity} × ${item.product.title} — ${money(price)}`;
+                return `• ${item.quantity} × ${item.product.title} — ${money(price)}`;
             });
 
             const message = [
@@ -490,7 +490,7 @@
                 '',
                 `*TOTAL: ${money(total)} MXN*`,
                 '',
-                'Pedido generado desde el menú digital. Favor de confirmar recepción.'
+                'Pedido generado desde el menú digital.'
             ].join('\n');
 
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
