@@ -21,4 +21,9 @@ collections:
       - { label: "Categoría", name: "category", widget: "select", options: ["Cafés Calientes", "Bebidas Frías", "Especialidades", "Snacks"] }
       - { label: "Precio ($ MXN)", name: "price", widget: "number", value_type: "int" }
       - { label: "Descripción", name: "description", widget: "text" }
-      - { label: "Foto del Producto", name: "image", widget: "image" }
+      - { label: "Foto principal del Producto", name: "image", widget: "image" }
+      - label: "Galería de imágenes adicionales"
+        name: "gallery"
+        widget: "list"
+        required: false
+        field: { label: "Imagen", name: "image", widget: "image" }
