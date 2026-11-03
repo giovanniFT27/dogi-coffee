@@ -38,12 +38,57 @@ collections:
         label: "Horario y ubicación"
         file: "content/configuracion.json"
         fields:
-          - label: "Horario de apertura"
-            name: "horario"
-            widget: "text"
-            hint: "Ejemplo: Lunes a viernes 8:00 a 18:00 · Sábado y domingo 9:00 a 15:00"
-          - label: "Enlace de Google Maps"
-            name: "mapsUrl"
-            widget: "string"
-            required: false
-            hint: "Pega el enlace para compartir de Google Maps del local."
+          - label: "Horario semanal"
+            name: "horarios"
+            widget: "object"
+            fields:
+              - label: "Lunes"
+                name: "lunes"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
+              - label: "Martes"
+                name: "martes"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
+              - label: "Miércoles"
+                name: "miercoles"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
+              - label: "Jueves"
+                name: "jueves"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
+              - label: "Viernes"
+                name: "viernes"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
+              - label: "Sábado"
+                name: "sabado"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 09:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 15:00" }
+              - label: "Domingo"
+                name: "domingo"
+                widget: "object"
+                fields:
+                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
+                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 09:00" }
+                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 15:00" }
+          - { label: "Enlace de Google Maps", name: "mapsUrl", widget: "string", required: false, hint: "Pega el enlace para compartir de Google Maps del local." }
