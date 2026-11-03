@@ -1,4 +1,40 @@
 {
-  "horario": "Sábado y domingo 9:00 a 15:00\n\n",
+  "horarios": {
+    "lunes": {
+      "abierto": false,
+      "apertura": "08:00",
+      "cierre": "18:00"
+    },
+    "martes": {
+      "abierto": false,
+      "apertura": "08:00",
+      "cierre": "18:00"
+    },
+    "miercoles": {
+      "abierto": false,
+      "apertura": "08:00",
+      "cierre": "18:00"
+    },
+    "jueves": {
+      "abierto": false,
+      "apertura": "08:00",
+      "cierre": "18:00"
+    },
+    "viernes": {
+      "abierto": false,
+      "apertura": "08:00",
+      "cierre": "18:00"
+    },
+    "sabado": {
+      "abierto": true,
+      "apertura": "09:00",
+      "cierre": "15:00"
+    },
+    "domingo": {
+      "abierto": true,
+      "apertura": "09:00",
+      "cierre": "15:00"
+    }
+  },
   "mapsUrl": "https://maps.app.goo.gl/83MgX1gMCWZVqXpS7"
 }
