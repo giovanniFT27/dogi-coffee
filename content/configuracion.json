@@ -1,40 +1,24 @@
 {
-  "horarios": {
-    "lunes": {
-      "abierto": false,
-      "apertura": "08:00",
-      "cierre": "18:00"
-    },
-    "martes": {
-      "abierto": false,
-      "apertura": "08:00",
-      "cierre": "18:00"
-    },
-    "miercoles": {
-      "abierto": false,
-      "apertura": "08:00",
-      "cierre": "18:00"
-    },
-    "jueves": {
-      "abierto": false,
-      "apertura": "08:00",
-      "cierre": "18:00"
-    },
-    "viernes": {
-      "abierto": false,
-      "apertura": "08:00",
-      "cierre": "18:00"
-    },
-    "sabado": {
-      "abierto": true,
-      "apertura": "09:00",
-      "cierre": "15:00"
-    },
-    "domingo": {
-      "abierto": true,
-      "apertura": "09:00",
-      "cierre": "15:00"
-    }
-  },
+  "lunes_abierto": false,
+  "lunes_apertura": "08:00",
+  "lunes_cierre": "18:00",
+  "martes_abierto": false,
+  "martes_apertura": "08:00",
+  "martes_cierre": "18:00",
+  "miercoles_abierto": false,
+  "miercoles_apertura": "08:00",
+  "miercoles_cierre": "18:00",
+  "jueves_abierto": false,
+  "jueves_apertura": "08:00",
+  "jueves_cierre": "18:00",
+  "viernes_abierto": false,
+  "viernes_apertura": "08:00",
+  "viernes_cierre": "18:00",
+  "sabado_abierto": true,
+  "sabado_apertura": "09:00",
+  "sabado_cierre": "15:00",
+  "domingo_abierto": true,
+  "domingo_apertura": "09:00",
+  "domingo_cierre": "15:00",
   "mapsUrl": "https://maps.app.goo.gl/83MgX1gMCWZVqXpS7"
 }
