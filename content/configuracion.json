@@ -15,7 +15,7 @@
   "sabado_apertura": "09:00",
   "martes_abierto": true,
   "domingo_cierre": "20:00",
-  "miercoles_abierto": true,
+  "miercoles_abierto": false,
   "lunes_apertura": "08:00",
   "mapsUrl": "https://maps.app.goo.gl/83MgX1gMCWZVqXpS7",
   "jueves_abierto": false,
