@@ -30,3 +30,13 @@ collections:
         widget: "list"
         required: false
         field: { label: "Imagen", name: "image", widget: "image" }
+
+  - name: "configuracion"
+    label: "Información del local"
+    files:
+      - name: "general"
+        label: "Horario y ubicación"
+        file: "content/configuracion.json"
+        fields:
+          - { label: "Horario de apertura", name: "horario", widget: "text", hint: "Ejemplo: Lunes a viernes 8:00 a 18:00 · Sábado y domingo 9:00 a 15:00" }
+          - { label: "Enlace de Google Maps", name: "mapsUrl", widget: "string", required: false, hint: "Pega el enlace para compartir de Google Maps del local." }
