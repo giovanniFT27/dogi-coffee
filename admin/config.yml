@@ -6,7 +6,7 @@ backend:
   auth_endpoint: auth
 
 media_folder: "assets/images"
-public_folder: "/assets/images"
+public_folder: "/dogi-coffee/assets/images"
 
 collections:
   - name: "productos"
