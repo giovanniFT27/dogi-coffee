@@ -267,6 +267,18 @@
             if (window.lucide) lucide.createIcons();
         });
 
+        // Convierte las rutas guardadas por Decap CMS en URLs válidas para GitHub Pages.
+        function resolveProductImage(imagePath) {
+            if (!imagePath || typeof imagePath !== 'string') return '';
+            const path = imagePath.trim();
+            if (/^https?:\\/\\//i.test(path) || path.startsWith('data:')) return path;
+            if (path.startsWith('/dogi-coffee/')) return path;
+            if (path.startsWith('/assets/')) return '/dogi-coffee' + path;
+            if (path.startsWith('assets/')) return '/dogi-coffee/' + path;
+            if (path.startsWith('/')) return path;
+            return '/dogi-coffee/' + path.replace(/^\\.\\//, '');
+        }
+
         // CARGAR PRODUCTOS DESDE ARCHIVOS JSON EN GITHUB
         async function fetchProductsFromCMS() {
             const grid = document.getElementById('productGrid');
@@ -370,7 +382,7 @@
                 return `
                 <div class="bg-dogi-card border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between shadow-xl transition-all duration-200 hover:border-white/20 group">
                     <div class="relative h-40 bg-neutral-900 cursor-pointer overflow-hidden" onclick="openProductDetail(${productIndex})">
-                        <img src="${p.image || 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <img src="${resolveProductImage(p.image) || 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-dogi-card via-transparent to-transparent opacity-80"></div>
                         <span class="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg text-[11px] font-mono font-extrabold text-white border border-white/10">
                             ${p.hasSizes ? 'Desde $' + Math.min(Number(p.smallPrice) || 0, Number(p.largePrice) || 0) : '$' + p.price}
@@ -402,7 +414,7 @@
             if (!product) return;
             activeProductIndex = index;
             selectedProductSize = 'chico';
-            activeProductImages = [...new Set([product.image, ...(Array.isArray(product.gallery) ? product.gallery : []), ...(Array.isArray(product.images) ? product.images : [])].filter(image => typeof image === 'string' && image.trim()))];
+            activeProductImages = [...new Set([product.image, ...(Array.isArray(product.gallery) ? product.gallery : []), ...(Array.isArray(product.images) ? product.images : [])].map(resolveProductImage).filter(Boolean))];
             if (activeProductImages.length === 0) activeProductImages = ['https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'];
             activeProductImageIndex = 0;
             renderProductGallery();
@@ -556,7 +568,7 @@
                 orderContainer.innerHTML = orderCart.map((item, itemIndex) => `
                     <div class="bg-neutral-900 border border-white/10 rounded-2xl p-3 flex items-center justify-between">
                         <div class="flex items-center gap-3 min-w-0">
-                            <img src="${item.product.image || 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'}" class="w-12 h-12 rounded-xl object-cover bg-neutral-800">
+                            <img src="${resolveProductImage(item.product.image) || 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'}" class="w-12 h-12 rounded-xl object-cover bg-neutral-800">
                             <div class="min-w-0">
                                 <h4 class="text-xs font-bold text-white">${item.product.title}${item.size ? ' (' + item.size + ')' : ''}</h4>
                                 <span class="text-[11px] font-mono text-dogi-accent">$ ${item.unitPrice * item.quantity} MXN</span>
