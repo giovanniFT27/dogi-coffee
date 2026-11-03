@@ -271,12 +271,12 @@
         function resolveProductImage(imagePath) {
             if (!imagePath || typeof imagePath !== 'string') return '';
             const path = imagePath.trim();
-            if (/^https?:\\/\\//i.test(path) || path.startsWith('data:')) return path;
+            if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
             if (path.startsWith('/dogi-coffee/')) return path;
             if (path.startsWith('/assets/')) return '/dogi-coffee' + path;
             if (path.startsWith('assets/')) return '/dogi-coffee/' + path;
             if (path.startsWith('/')) return path;
-            return '/dogi-coffee/' + path.replace(/^\\.\\//, '');
+            return '/dogi-coffee/' + (path.startsWith('./') ? path.slice(2) : path);
         }
 
         // CARGAR PRODUCTOS DESDE ARCHIVOS JSON EN GITHUB
