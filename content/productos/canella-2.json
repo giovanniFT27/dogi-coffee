@@ -1,0 +1,12 @@
+{
+  "hasSizes": false,
+  "title": "canella 2 ",
+  "category": "Snacks",
+  "price": 51,
+  "description": "lorem 2",
+  "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMqWGn7iuuoon1JfqCs1Tjq0k45wFObF0MGKPzIkamTPVF5cl8Bx4osLE&s=10",
+  "gallery": [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfImW2LlaudkAr6qMoPk8IH40CigQh7Yh2fD_FtCAGpUVjWddbLMivkQg&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPicgmLzyPGSU3MplMX4jGT14wtzfrUAXuN9IliNyJMwPZAVCiXlXTv5U&s=10"
+  ]
+}
