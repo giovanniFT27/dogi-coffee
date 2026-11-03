@@ -281,15 +281,17 @@
                 const response = await fetch('https://raw.githubusercontent.com/giovanniFT27/dogi-coffee/main/content/configuracion.json');
                 if (!response.ok) throw new Error('No se pudo cargar la información del local.');
                 const config = await response.json();
-                if (config.horarios && typeof config.horarios === 'object') {
-                    renderWeeklyHours(config.horarios, hours);
-                    updateStoreOpenStatus(config.horarios, statusDot, statusText);
-                    window.setInterval(() => updateStoreOpenStatus(config.horarios, statusDot, statusText), 60000);
-                } else {
-                    hours.textContent = config.horario || 'Horario por configurar';
-                    statusText.textContent = 'Horario no configurado';
-                    statusDot.className = 'w-2 h-2 rounded-full bg-neutral-500 shrink-0';
+                const weeklySchedule = {};
+                for (const day of WEEK_DAYS) {
+                    weeklySchedule[day.key] = {
+                        abierto: config[day.key + '_abierto'] === true,
+                        apertura: config[day.key + '_apertura'] || '',
+                        cierre: config[day.key + '_cierre'] || ''
+                    };
                 }
+                renderWeeklyHours(weeklySchedule, hours);
+                updateStoreOpenStatus(weeklySchedule, statusDot, statusText);
+                window.setInterval(() => updateStoreOpenStatus(weeklySchedule, statusDot, statusText), 60000);
                 const mapUrl = (config.mapsUrl || '').trim();
                 if (mapUrl) {
                     const parsedUrl = new URL(mapUrl);
