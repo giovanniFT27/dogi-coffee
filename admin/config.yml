@@ -38,57 +38,26 @@ collections:
         label: "Horario y ubicación"
         file: "content/configuracion.json"
         fields:
-          - label: "Horario semanal"
-            name: "horarios"
-            widget: "object"
-            fields:
-              - label: "Lunes"
-                name: "lunes"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
-              - label: "Martes"
-                name: "martes"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
-              - label: "Miércoles"
-                name: "miercoles"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
-              - label: "Jueves"
-                name: "jueves"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
-              - label: "Viernes"
-                name: "viernes"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 08:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 18:00" }
-              - label: "Sábado"
-                name: "sabado"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 09:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 15:00" }
-              - label: "Domingo"
-                name: "domingo"
-                widget: "object"
-                fields:
-                  - { label: "¿Abre este día?", name: "abierto", widget: "boolean", default: false }
-                  - { label: "Hora de apertura (HH:MM)", name: "apertura", widget: "string", required: false, hint: "Ejemplo: 09:00" }
-                  - { label: "Hora de cierre (HH:MM)", name: "cierre", widget: "string", required: false, hint: "Ejemplo: 15:00" }
+          - { label: "CONFIGURA LOS DÍAS Y HORAS DE APERTURA", name: "ayudaHorario", widget: "hidden", default: "" }
+          - { label: "Lunes — ¿Abre este día?", name: "lunes_abierto", widget: "boolean", default: false }
+          - { label: "Lunes — Hora de apertura (24 h)", name: "lunes_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Lunes — Hora de cierre (24 h)", name: "lunes_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Martes — ¿Abre este día?", name: "martes_abierto", widget: "boolean", default: false }
+          - { label: "Martes — Hora de apertura (24 h)", name: "martes_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Martes — Hora de cierre (24 h)", name: "martes_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Miércoles — ¿Abre este día?", name: "miercoles_abierto", widget: "boolean", default: false }
+          - { label: "Miércoles — Hora de apertura (24 h)", name: "miercoles_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Miércoles — Hora de cierre (24 h)", name: "miercoles_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Jueves — ¿Abre este día?", name: "jueves_abierto", widget: "boolean", default: false }
+          - { label: "Jueves — Hora de apertura (24 h)", name: "jueves_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Jueves — Hora de cierre (24 h)", name: "jueves_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Viernes — ¿Abre este día?", name: "viernes_abierto", widget: "boolean", default: false }
+          - { label: "Viernes — Hora de apertura (24 h)", name: "viernes_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Viernes — Hora de cierre (24 h)", name: "viernes_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Sábado — ¿Abre este día?", name: "sabado_abierto", widget: "boolean", default: false }
+          - { label: "Sábado — Hora de apertura (24 h)", name: "sabado_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Sábado — Hora de cierre (24 h)", name: "sabado_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
+          - { label: "Domingo — ¿Abre este día?", name: "domingo_abierto", widget: "boolean", default: false }
+          - { label: "Domingo — Hora de apertura (24 h)", name: "domingo_apertura", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 08:30"] }
+          - { label: "Domingo — Hora de cierre (24 h)", name: "domingo_cierre", widget: "string", required: false, pattern: ["^([01][0-9]|2[0-3]):[0-5][0-9]$", "Usa formato HH:MM, por ejemplo 18:00"] }
           - { label: "Enlace de Google Maps", name: "mapsUrl", widget: "string", required: false, hint: "Pega el enlace para compartir de Google Maps del local." }
