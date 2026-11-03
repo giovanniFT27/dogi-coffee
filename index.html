@@ -284,6 +284,7 @@
                 if (config.horarios && typeof config.horarios === 'object') {
                     renderWeeklyHours(config.horarios, hours);
                     updateStoreOpenStatus(config.horarios, statusDot, statusText);
+                    window.setInterval(() => updateStoreOpenStatus(config.horarios, statusDot, statusText), 60000);
                 } else {
                     hours.textContent = config.horario || 'Horario por configurar';
                     statusText.textContent = 'Horario no configurado';
@@ -334,7 +335,7 @@
             const today = schedule[todayKey] || {};
             const yesterday = schedule[yesterdayKey] || {};
             const parseTime = value => {
-                if (!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(value || '')) return null;
+                if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(value || '')) return null;
                 const parts = value.split(':').map(Number);
                 return parts[0] * 60 + parts[1];
             };
