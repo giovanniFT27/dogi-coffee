@@ -4,7 +4,7 @@
   "category": "Snacks",
   "price": 50,
   "description": "canella rols lemon 1",
-  "image": "/assets/images/rolllemon1.jpg",
+  "image": "assets/images/rolllemon2.jpg",
   "gallery": [
     "/assets/images/rolllemon2.jpg",
     "/assets/images/rolllemon3.jpg"
