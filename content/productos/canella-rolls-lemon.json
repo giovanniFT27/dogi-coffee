@@ -4,5 +4,8 @@
   "category": "Snacks",
   "price": 50,
   "description": "lorem canella",
-  "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw335CjXS68r4qs80pCXo6-54O3zY5FbF0b6XSJUHNTBKXjPVsRVVryNA&s=10"
+  "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw335CjXS68r4qs80pCXo6-54O3zY5FbF0b6XSJUHNTBKXjPVsRVVryNA&s=10",
+  "gallery": [
+    "https://raw.githubusercontent.com/giovanniFT27/dogi-coffee/refs/heads/main/assets/images/rolllemon4.jpg"
+  ]
 }
