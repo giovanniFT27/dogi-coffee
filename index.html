@@ -82,11 +82,15 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-dogi-accent"></span>
                         <span class="text-[9px] font-bold tracking-[0.18em] text-dogi-accent uppercase">Urban Coffee Experience</span>
                     </div>
+                    <div class="flex items-center gap-2 mb-1.5">
+                        <span id="storeStatusDot" class="w-2 h-2 rounded-full bg-neutral-500 shrink-0"></span>
+                        <span id="storeStatusText" class="text-[11px] font-bold text-neutral-300">Consultando horario...</span>
+                    </div>
                     <div class="flex items-start gap-2.5">
                         <i data-lucide="clock-3" class="w-4 h-4 text-neutral-400 mt-0.5 shrink-0"></i>
                         <div class="min-w-0">
-                            <p class="text-[9px] font-bold tracking-wider text-neutral-500 uppercase">Horario de apertura</p>
-                            <p id="storeHours" class="text-[11px] leading-snug text-neutral-200 whitespace-pre-line">Consulta nuestros horarios</p>
+                            <p class="text-[9px] font-bold tracking-wider text-neutral-500 uppercase mb-1">Horario semanal</p>
+                            <div id="storeHours" class="text-[10px] leading-relaxed text-neutral-200">Consulta nuestros horarios</div>
                         </div>
                     </div>
                 </div>
@@ -267,15 +271,24 @@
             if (window.lucide) lucide.createIcons();
         });
 
-        // Carga el horario y la ubicación configurados desde el panel de administración.
+        // Carga el horario semanal y calcula si el local está abierto, cerrado o por cerrar.
         async function fetchStoreConfig() {
             const hours = document.getElementById('storeHours');
+            const statusDot = document.getElementById('storeStatusDot');
+            const statusText = document.getElementById('storeStatusText');
             const mapsButton = document.getElementById('storeMapsButton');
             try {
                 const response = await fetch('https://raw.githubusercontent.com/giovanniFT27/dogi-coffee/main/content/configuracion.json');
                 if (!response.ok) throw new Error('No se pudo cargar la información del local.');
                 const config = await response.json();
-                hours.textContent = config.horario || 'Horario por confirmar';
+                if (config.horarios && typeof config.horarios === 'object') {
+                    renderWeeklyHours(config.horarios, hours);
+                    updateStoreOpenStatus(config.horarios, statusDot, statusText);
+                } else {
+                    hours.textContent = config.horario || 'Horario por configurar';
+                    statusText.textContent = 'Horario no configurado';
+                    statusDot.className = 'w-2 h-2 rounded-full bg-neutral-500 shrink-0';
+                }
                 const mapUrl = (config.mapsUrl || '').trim();
                 if (mapUrl) {
                     const parsedUrl = new URL(mapUrl);
@@ -287,7 +300,71 @@
                 }
             } catch (error) {
                 console.warn('No se pudo cargar la información del local:', error);
+                statusText.textContent = 'Horario no disponible';
             }
+        }
+
+        const WEEK_DAYS = [
+            { key: 'domingo', label: 'Domingo' },
+            { key: 'lunes', label: 'Lunes' },
+            { key: 'martes', label: 'Martes' },
+            { key: 'miercoles', label: 'Miércoles' },
+            { key: 'jueves', label: 'Jueves' },
+            { key: 'viernes', label: 'Viernes' },
+            { key: 'sabado', label: 'Sábado' }
+        ];
+
+        function renderWeeklyHours(schedule, container) {
+            const today = new Date().getDay();
+            container.innerHTML = WEEK_DAYS.map((day, index) => {
+                const entry = schedule[day.key] || {};
+                const enabled = entry.abierto === true;
+                const range = enabled && entry.apertura && entry.cierre ? entry.apertura + ' – ' + entry.cierre : 'Cerrado';
+                return '<div class="flex justify-between gap-3 ' + (index === today ? 'font-bold text-white' : 'text-neutral-300') + '">' +
+                    '<span>' + day.label + (index === today ? ' · Hoy' : '') + '</span>' +
+                    '<span class="text-right ' + (!enabled ? 'text-neutral-500' : '') + '">' + range + '</span></div>';
+            }).join('');
+        }
+
+        function updateStoreOpenStatus(schedule, dot, label) {
+            const now = new Date();
+            const todayKey = WEEK_DAYS[now.getDay()].key;
+            const yesterdayKey = WEEK_DAYS[(now.getDay() + 6) % 7].key;
+            const minutesNow = now.getHours() * 60 + now.getMinutes();
+            const today = schedule[todayKey] || {};
+            const yesterday = schedule[yesterdayKey] || {};
+            const parseTime = value => {
+                if (!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(value || '')) return null;
+                const parts = value.split(':').map(Number);
+                return parts[0] * 60 + parts[1];
+            };
+            let state = 'closed';
+            const openToday = today.abierto === true ? parseTime(today.apertura) : null;
+            const closeToday = today.abierto === true ? parseTime(today.cierre) : null;
+            const closeYesterday = yesterday.abierto === true ? parseTime(yesterday.cierre) : null;
+
+            if (openToday !== null && closeToday !== null) {
+                if (closeToday > openToday && minutesNow >= openToday && minutesNow < closeToday) {
+                    state = closeToday - minutesNow <= 30 ? 'closing' : 'open';
+                } else if (closeToday < openToday && minutesNow >= openToday) {
+                    state = (1440 - minutesNow + closeToday) <= 30 ? 'closing' : 'open';
+                } else if (closeToday < openToday && minutesNow < closeToday) {
+                    state = closeToday - minutesNow <= 30 ? 'closing' : 'open';
+                }
+            }
+            if (state === 'closed' && closeYesterday !== null && yesterday.abierto === true) {
+                const openYesterday = parseTime(yesterday.apertura);
+                if (openYesterday !== null && closeYesterday < openYesterday && minutesNow < closeYesterday) {
+                    state = closeYesterday - minutesNow <= 30 ? 'closing' : 'open';
+                }
+            }
+            const styles = {
+                open: { text: 'Abierto ahora', dot: 'bg-green-500' },
+                closed: { text: 'Cerrado', dot: 'bg-red-500' },
+                closing: { text: 'Cierra pronto', dot: 'bg-amber-400' }
+            };
+            label.textContent = styles[state].text;
+            dot.className = 'w-2 h-2 rounded-full shrink-0 ' + styles[state].dot;
         }
 
         // Convierte las rutas guardadas por Decap CMS en URLs válidas para GitHub Pages.
