@@ -1,0 +1,13 @@
+{
+  "hasSizes": true,
+  "title": "OREO LATTEE",
+  "category": "Bebidas Frías",
+  "description": "Nuestra versión de este clásico: café de verdad, leche bien cremosa y harto trocito de Oreo pa' consentirte. Dulce, cremoso y con la textura exacta. Pídelo y me dices qué tal.",
+  "image": "/dogi-coffee/assets/images/oreo-lattee1.jpg",
+  "gallery": [
+    "/dogi-coffee/assets/images/oreo-lattee2.jpg",
+    "/dogi-coffee/assets/images/gemini_generated_image_npn5vynpn5vynpn5.jpg"
+  ],
+  "smallPrice": 70,
+  "largePrice": 79
+}
