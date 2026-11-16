@@ -1,8 +1,13 @@
 {
   "hasSizes": false,
-  "title": "roll2",
+  "title": "CANELA ROLL LEMON CREAM",
   "category": "Snacks",
   "price": 52,
-  "description": "knkjhkj",
-  "image": "/dogi-coffee/assets/images/rolllemon4.jpg"
+  "description": "¿Te late lo dulce pero con un toque fresco? Este rol trae una cobertura cremosa de limón que le da un toque de dulcura y acides en un balance perfecto.",
+  "image": "/dogi-coffee/assets/images/canelarolllemon1.jpg",
+  "gallery": [
+    "/dogi-coffee/assets/images/canelarolllemon2.jpg",
+    "/dogi-coffee/assets/images/canelarolllemon3.jpg",
+    "/dogi-coffee/assets/images/rolllemon4.jpg"
+  ]
 }
