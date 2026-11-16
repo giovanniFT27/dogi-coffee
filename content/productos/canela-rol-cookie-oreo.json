@@ -1,0 +1,12 @@
+{
+  "hasSizes": false,
+  "title": "CANELA ROL COOKIE OREO",
+  "category": "Snacks",
+  "price": 52,
+  "description": "La combinación perfecta entre el rol tradicional de la casa y el crunch de la Oreo. Bañado en su glaseado cremoso y  tricitos de oreo.",
+  "image": "/dogi-coffee/assets/images/rolloreo1.jpg",
+  "gallery": [
+    "/dogi-coffee/assets/images/rolloreo2.jpg",
+    "/dogi-coffee/assets/images/rolloreo3.jpg"
+  ]
+}
