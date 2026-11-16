@@ -1,0 +1,13 @@
+{
+  "hasSizes": false,
+  "title": "CANELA ROLL CHOCO CAJETA",
+  "price": 52,
+  "category": "Snacks",
+  "image": "/dogi-coffee/assets/images/rollchococajeta1.jpg",
+  "description": "¿Se te antoja algo dulce y chocolatoso? Este rol junta lo mejor de dos mundos: buena cajeta, chocolate y chispas arriba sobre nuestra base cremosa de siempre. Pídelo acompañado de un buen espresso para nivelar el gusto.",
+  "gallery": [
+    "/dogi-coffee/assets/images/rollchococajeta2.jpg",
+    "/dogi-coffee/assets/images/rollchococajeta3.jpg",
+    "/dogi-coffee/assets/images/rollchococajeta4.jpg"
+  ]
+}
